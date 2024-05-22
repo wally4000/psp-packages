@@ -1,6 +1,6 @@
 pkgname=sdl-gfx
-pkgver=2.0.26
-pkgrel=2
+pkgver=2.0.27
+pkgrel=3
 pkgdesc="SDL graphics drawing primitives and other support functions"
 arch=('mips')
 url="https://www.ferzkopp.net/wordpress/2016/01/02/sdl_gfx-sdl2_gfx/"
@@ -8,11 +8,12 @@ license=('ZLIB')
 depends=('sdl' 'freetype2')
 makedepends=()
 optdepends=()
-source=("https://github.com/pspdev/SDL_gfx/archive/${pkgver}-psp.tar.gz")
-sha256sums=('8a5116995bad20720978bc857588f58b5baf3dbe03f2b2099b339f445abae36d')
+source=("https://sourceforge.net/projects/sdlgfx/files/SDL_gfx-${pkgver}.tar.gz")
+sha256sums=('dfb15ac5f8ce7a4952dc12d2aed9747518c5e6b335c0e31636d23f93c630f419')
 
 prepare() {
-    cd "SDL_gfx-$pkgver-psp"
+    cd "SDL_gfx-$pkgver"
+    wget -O config.sub "http://git.savannah.gnu.org/gitweb/?p=autoconf.git;a=blob_plain;f=build-aux/config.sub"
     sed -i 's#@prefix@#${PSPDEV}/psp#' SDL_gfx.pc.in
     sed -i 's#@exec_prefix@#${prefix}#' SDL_gfx.pc.in
     sed -i 's#@libdir@#${prefix}/lib#' SDL_gfx.pc.in
@@ -20,15 +21,14 @@ prepare() {
 }
 
 build() {
-    cd "SDL_gfx-$pkgver-psp"
-    ./autogen.sh
-    LDFLAGS="-L$(psp-config --pspsdk-path)/lib" LIBS="-lc -lpspuser" \
-    ./configure --host psp --prefix=/psp --with-sdl-prefix=$(psp-config --psp-prefix) --disable-mmx
+    cd "SDL_gfx-$pkgver"
+    LDFLAGS="-L$(psp-config -p)/lib"  \
+    ./configure --host psp  --with-sdl-prefix=$(psp-config --psp-prefix) --prefix=/psp --disable-mmx --disable-shared
     make
 }
 
 package() {
-    cd "SDL_gfx-$pkgver-psp"
+    cd "SDL_gfx-$pkgver"
     make DESTDIR="$pkgdir/" install
 
     rm "${pkgdir}/psp/lib/libSDL_gfx.la"
