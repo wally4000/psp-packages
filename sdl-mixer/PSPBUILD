@@ -22,7 +22,7 @@ prepare() {
 }
 
 build() {
-    cd "SDL_mixer
+    cd "SDL_mixer"
     ./autogen.sh
     LDFLAGS="-L$(psp-config --pspsdk-path)/lib" LIBS="-lc -lpspuser" \
     ./configure --host psp --with-sdl-prefix=$(psp-config --psp-prefix) \
