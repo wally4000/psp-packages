@@ -13,7 +13,7 @@ source=("git+https://github.com/libsdl-org/SDL_mixer.git#commit=78cde6dd63222f93
 sha256sums=('SKIP')
 
 prepare() {
-    cd "SDL_mixer
+    cd "SDL_mixer"
     wget -O build-scripts/config.sub "http://git.savannah.gnu.org/gitweb/?p=autoconf.git;a=blob_plain;f=build-aux/config.sub"
     sed -i 's#@prefix@#${PSPDEV}/psp#' SDL_mixer.pc.in
     sed -i 's#@exec_prefix@#${prefix}#' SDL_mixer.pc.in
