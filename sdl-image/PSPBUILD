@@ -8,7 +8,8 @@ license=('MIT')
 depends=('sdl' 'libpng' 'jpeg')
 makedepends=()
 optdepends=()
-source=("git+https://github.com/libsdl-org/SDL_image.git#commit=7adb1a70f97d62f1bb307bfb4e6c2fa0bc8c33ab$")
+source=("git+https://github.com/libsdl-org/SDL_image.git#commit=7adb1a70f97d62f1bb307bfb4e6c2fa0bc8c33ab")
+
 sha256sums=('SKIP')
 
 prepare() {
@@ -29,7 +30,7 @@ build() {
 
 package() {
     cd "SDL_image"
-    make DESTDIR="$pkgdir/" install
+    make DESTDIR="$pkgdir/" install 
 
     rm "${pkgdir}/psp/lib/libSDL_image.la"
 
